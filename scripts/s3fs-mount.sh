@@ -8,5 +8,6 @@ mkdir -p $HOME/mnt/rgw
 s3fs bucket $HOME/mnt/rgw \
   -o use_path_request_style \
   -o url=$ENDPOINT_URL \
+  -o endpoint=$REGION_NAME \
   -o credlib=librgw-sts.so \
-  -o credlib_opts=Info -f -d
+  -o credlib_opts=Info -f
