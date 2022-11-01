@@ -19,7 +19,6 @@ bool AwsDoc::STS::assumeRoleWithWebIdentity(const Aws::String &roleArn,
                   outcome.GetError().GetMessage() << std::endl;
     }
     else {
-        std::cout << "Credentials successfully retrieved." << std::endl;
         const Aws::STS::Model::AssumeRoleWithWebIdentityResult result = outcome.GetResult();
         const Aws::STS::Model::Credentials &temp_credentials = result.GetCredentials();
 

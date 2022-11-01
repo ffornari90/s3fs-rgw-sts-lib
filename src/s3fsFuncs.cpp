@@ -121,7 +121,10 @@ bool UpdateS3fsCredential(char** ppaccess_key_id, char** ppserect_access_key, ch
 
         if (!AwsDoc::STS::assumeRoleWithWebIdentity(roleArn, roleSessionName, webIdentityToken, credentials, clientConfig))
         {
-            return 1;
+            if(pperrstr){
+                    *pperrstr = strdup("Assume Role with Web Identity failed.");
+            }
+            return false;
         }
 
         // Get credentials

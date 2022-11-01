@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv)
 {
-	char*	perrstr = NULL;
+	char* perrstr = NULL;
 
 	std::cout << "[awscred_test] Start test for s3fsrgwsts.so" << std::endl;
 	std::cout << std::endl;
