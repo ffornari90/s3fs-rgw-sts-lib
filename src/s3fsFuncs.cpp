@@ -1,5 +1,6 @@
 #include "main.hpp"
 #include "config.h"
+#include <fstream>
 #include <string.h>
 
 static Aws::SDKOptions& GetSDKOptions()
@@ -84,6 +85,15 @@ bool FreeS3fsCredential(char** pperrstr)
         // Shutdown
         //
         Aws::ShutdownAPI(GetSDKOptions());
+
+        auto home = std::getenv("HOME") ? std::getenv("HOME") : "/tmp";
+        std::string s3fs_credfile = "/.aws/credentials";
+        std::ofstream ofs(home + s3fs_credfile, std::ofstream::trunc);
+        ofs << "[default]\n";
+        ofs << "aws_access_key_id = access\n";
+        ofs << "aws_secret_access_key = secret\n";
+        ofs << "aws_session_token = token\n";
+        ofs.close();
 
         return true;
 }
