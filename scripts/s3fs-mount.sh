@@ -10,4 +10,4 @@ s3fs bucket $HOME/mnt/rgw \
   -o url=$ENDPOINT_URL \
   -o endpoint=$REGION_NAME \
   -o credlib=librgw-sts.so \
-  -o credlib_opts=Info -f
+  -o credlib_opts=Info -f -d -o curldbg
