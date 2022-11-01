@@ -23,13 +23,13 @@ project(s3fs_rgw_sts DESCRIPTION "Software using AWS C++ SDK to perform Ceph Rad
 find_package(nlohmann_json 3.11.2 REQUIRED)
 find_package(CURL 7.74.0 REQUIRED)
 
-#include(ExternalProject)
-#
-#ExternalProject_Add(s3fs-fuse
-#    GIT_REPOSITORY https://github.com/s3fs-fuse/s3fs-fuse.git
-#    CONFIGURE_COMMAND cp -R ../s3fs-fuse/. . && ./autogen.sh && ./configure
-#    COMMAND make
-#)
+include(ExternalProject)
+
+ExternalProject_Add(s3fs-fuse
+    GIT_REPOSITORY https://github.com/s3fs-fuse/s3fs-fuse.git
+    CONFIGURE_COMMAND cp -R ../s3fs-fuse/. . && ./autogen.sh && ./configure
+    COMMAND make
+)
 
 #
 # Create config.h
