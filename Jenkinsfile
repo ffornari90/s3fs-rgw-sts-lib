@@ -79,7 +79,7 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'KeycloakSecret', variable: 'CLIENT_SECRET')]) {
 	                try {
-	                    sh "cd s3fs-rgw-sts-lib/build && ./rgw_sts_test"
+	                    sh "cd s3fs-rgw-sts-lib/build && ./rgw-sts_test"
 	                } catch (e) {
 	                    updateGitlabCommitStatus name: 'test', state: 'failed'
 	                    sh "exit 1"
