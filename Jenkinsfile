@@ -7,7 +7,7 @@ pipeline {
         AWS_EC2_METADATA_DISABLED = 'true'
         CLIENT_ID = 'myclient'
         ROLE_ARN = 'arn:aws:iam:::role/S3AccessWebId'
-        ROLE_NAME = 'User'
+        ROLE_NAME = 'S3AccessWebId'
         KC_HOST = 'https://keycloak.cr.cnaf.infn.it'
         KC_REALM = 'myrealm'
         ENDPOINT_URL = 'http://vm-131-154-162-88.cr.cnaf.infn.it:8080'
