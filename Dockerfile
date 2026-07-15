@@ -34,34 +34,34 @@ RUN curl -fsSL \
 # AWS SDK
 #
 RUN git clone --depth 1 --recurse-submodules \
-    https://github.com/aws/aws-sdk-cpp.git && \
+      https://github.com/aws/aws-sdk-cpp.git && \
     mkdir sdk_build && \
     cd sdk_build && \
     cmake ../aws-sdk-cpp \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_ONLY="core;identity-management;iam;s3;sts" \
       -DAUTORUN_UNIT_TESTS=OFF && \
-    make -j$(nproc) && \
+    make -j"$(nproc)" && \
     make install
 
 #
 # nlohmann/json
 #
 RUN git clone --depth 1 \
-    https://github.com/nlohmann/json.git && \
+      https://github.com/nlohmann/json.git && \
     cd json && \
     cmake -S . -B build && \
-    cmake --build build -j$(nproc) && \
+    cmake --build build -j"$(nproc)" && \
     cmake --install build
 
 #
 # s3fs-rgw-sts-lib
 #
 RUN git clone \
-    https://github.com/ffornari90/s3fs-rgw-sts-lib.git && \
+      https://github.com/ffornari90/s3fs-rgw-sts-lib.git && \
     cd s3fs-rgw-sts-lib && \
     cmake -S . -B build && \
-    cmake --build build -j$(nproc) && \
+    cmake --build build -j"$(nproc)" && \
     cmake --install build
 
 ############################
@@ -83,18 +83,17 @@ RUN apt-get update && \
       ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL \
-    https://ssl-tools.net/certificates/c2826e266d7405d34ef89762636ae4b36e86cb5e.pem \
-    -o /usr/local/share/ca-certificates/geant-ov-rsa-ca.crt && \
-    update-ca-certificates
-
 #
-# copy installed artifacts
+# Copy runtime artifacts
 #
 COPY --from=builder /usr/local/bin/s3fs /usr/local/bin/s3fs
 COPY --from=builder /usr/local/lib/ /usr/local/lib/
-COPY --from=builder /usr/local/include/ /usr/local/include/
-COPY --from=builder /usr/local/share/ /usr/local/share/
+
+#
+# Copy CA bundle generated in builder
+#
+COPY --from=builder /etc/ssl/certs/ /etc/ssl/certs/
+COPY --from=builder /usr/local/share/ca-certificates/ /usr/local/share/ca-certificates/
 
 RUN ldconfig
 
@@ -117,9 +116,8 @@ RUN mkdir -p /home/docker/.aws && \
 ENTRYPOINT ["sh","-c"]
 
 CMD ["s3fs ${BUCKET_NAME} /home/docker/mnt/rgw \
-      -o use_path_request_style \
-      -o url=${ENDPOINT_URL} \
-      -o endpoint=${REGION_NAME} \
-      -o credlib=librgw-sts.so \
-      -o credlib_opts=Info \
-      -f"]
+        -o use_path_request_style \
+        -o url=${ENDPOINT_URL} \
+        -o endpoint=${REGION_NAME} \
+        -o credlib=librgw-sts.so \
+        -o credlib_opts=Info -f"]
