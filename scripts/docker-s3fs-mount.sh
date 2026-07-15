@@ -8,5 +8,5 @@ if [ -f "$FILE" ]; then
            --cap-add SYS_ADMIN \
            --privileged \
            --env-file $FILE \
-           ffornari/s3fs-rgw-sts
+           ghcr.io/ffornari90/s3fs-rgw-sts-lib:main
 fi
